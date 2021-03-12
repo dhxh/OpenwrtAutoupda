@@ -36,9 +36,6 @@ GET_TARGET_INFO() {
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
-		else
-			Default_Firmware="${Default_Firmware}"
-			Firmware_sfx="${Extension}"
 		fi
 	;;
 	"${LIENOL}") 
@@ -54,9 +51,6 @@ GET_TARGET_INFO() {
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
-		else
-			Default_Firmware="${Default_Firmware}"
-			Firmware_sfx="${Extension}"
 		fi
 	;;
 	"${PROJECT}")
@@ -73,9 +67,6 @@ GET_TARGET_INFO() {
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
 		else
-			Default_Firmware="${Default_Firmware}"
-			Firmware_sfx="${Extension}"
-		fi
 	;;
 	esac
 	if [[ ${REGULAR_UPDATE} == "true" ]]; then
