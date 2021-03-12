@@ -66,6 +66,7 @@ GET_TARGET_INFO() {
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
+		fi	
 	;;		
 	esac
 	if [[ ${REGULAR_UPDATE} == "true" ]]; then
