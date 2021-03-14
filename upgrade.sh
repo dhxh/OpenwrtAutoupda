@@ -5,10 +5,6 @@
 
 GET_TARGET_INFO() {
 	[ -f ${GITHUB_WORKSPACE}/Openwrt.info ] && . ${GITHUB_WORKSPACE}/Openwrt.info
-	AutoBuild_Info="${GITHUB_WORKSPACE}/openwrt/package/lean/base-files/files/etc/openwrt_info"
-	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" ${GITHUB_WORKSPACE}/.git/config | cut -c8-100)"
-	AutoUpdate_Version="$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')"
-	Openwrt_Version=${Compile_Date_Day}-${Compile_Date_Minute}
         TARGET_BOARD="$(awk -F '[="]+' '/TARGET_BOARD/{print $2}' .config)"
 	TARGET_SUBTARGET="$(awk -F '[="]+' '/TARGET_SUBTARGET/{print $2}' .config)"
 	TARGET_PROFILE="$(egrep -o "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
@@ -69,6 +65,10 @@ GET_TARGET_INFO() {
 		fi	
 	;;		
 	esac
+	AutoBuild_Info=${GITHUB_WORKSPACE}/openwrt/package/lean/base-files/files/etc/openwrt_info
+	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" ${GITHUB_WORKSPACE}/.git/config | cut -c8-100)"
+	AutoUpdate_Version="$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')"
+	Openwrt_Version=${Compile_Date_Day}-${Compile_Date_Minute}
 }
 
 Diy_Part1() {
