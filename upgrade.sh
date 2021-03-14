@@ -65,8 +65,7 @@ GET_TARGET_INFO() {
 		fi	
 	;;		
 	esac
-	touch ${GITHUB_WORKSPACE}/openwrt/package/lean/base-files/files/etc/openwrt_info
-	AutoBuild_Info=${GITHUB_WORKSPACE}/openwrt/package/lean/base-files/files/etc/openwrt_info
+	AutoBuild_Info=${GITHUB_WORKSPACE}/openwrt/package/base-files/files/etc/openwrt_info
 	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" ${GITHUB_WORKSPACE}/.git/config | cut -c8-100)"
 	AutoUpdate_Version="$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')"
 	Openwrt_Version=${Compile_Date_Day}-${Compile_Date_Minute}
