@@ -95,7 +95,6 @@ Diy_Part2() {
 }
 
 Diy_Part3() {
-	Diy_Core
 	GET_TARGET_INFO
 	Firmware_Path="bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}"
 	Mkdir bin/Firmware
