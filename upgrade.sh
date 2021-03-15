@@ -124,10 +124,10 @@ Diy_Part3() {
 	*)
 		cd ${Home}
 		Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_sfx}"
-		AutoBuild_Firmware="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.${Firmware_sfx}"
-		AutoBuild_Detail="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.detail"
+		AutoBuild_Firmware="${COMP1}-${COMP1}-${Openwrt_Version}.${Firmware_sfx}"
+		AutoBuild_Detail="${COMP1}-${COMP1}-${Openwrt_Version}.detail"
 		echo "Firmware: ${AutoBuild_Firmware}"
-		mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${AutoBuild_Firmware}
+		mv -f ${Firmware_Path}/${AutoBuild_Firmware} bin/Firmware/${AutoBuild_Firmware}
 		_MD5=$(md5sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
 		_SHA256=$(sha256sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
 		echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${AutoBuild_Detail}
