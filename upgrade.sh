@@ -97,7 +97,7 @@ Diy_Part2() {
 Diy_Part3() {
 	GET_TARGET_INFO
 	Firmware_Path="bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}"
-	Mkdir bin/Firmware
+	mkdir bin/Firmware
 	case "${TARGET_PROFILE}" in
 	x86_64)
 		cd ${Firmware_Path}
