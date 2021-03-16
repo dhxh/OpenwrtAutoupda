@@ -54,7 +54,7 @@ GET_TARGET_INFO() {
 	;;
 	"${PROJECT}")
 		COMP1="immortalwrt"
-        COMP2="${REPO_BRANCH}"
+                COMP2="${REPO_BRANCH}"
 		if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
 			Default_Firmware="immortalwrt-x86-64-combined-squashfs.${Firmware_sfxo}"
 			EFI_Default_Firmware="immortalwrt-x86-64-uefi-gpt-squashfs.${Firmware_sfxo}"
@@ -103,21 +103,22 @@ Diy_Part3() {
 		cd ${Firmware_Path}
 		Legacy_Firmware="${Legacy_Firmware}"
 		EFI_Firmware="${EFI_Default_Firmware}"
-		AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_SUBTARGET}-${Openwrt_Version}"
 		if [ -f "${Legacy_Firmware}" ];then
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-Legacy-${TARGET_SUBTARGET}-${Openwrt_Version}"
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}-Legacy.detail
-			mv -f ${Firmware_Path}/${Legacy_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}-Legacy.${Firmware_sfx}
+			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
+			mv -f ${Firmware_Path}/${Legacy_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
 			echo "Legacy Firmware is detected !"
 		fi
 		if [ -f "${EFI_Firmware}" ];then
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-UEFI-${TARGET_SUBTARGET}-${Openwrt_Version}"
 			_MD5=$(md5sum ${EFI_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
 			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
-			cp ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.${Firmware_sfx}
+			cp ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
 			echo "UEFI Firmware is detected !"
 		fi
 	;;
