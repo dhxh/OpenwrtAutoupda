@@ -102,7 +102,7 @@ Diy_Part3() {
 	x86_64)
 		cd ${Firmware_Path}
 		Legacy_Firmware="${Legacy_Firmware}"
-		EFI_Firmware="${EFI_Up_Firmware}"
+		EFI_Firmware="${EFI_Default_Firmware}"
 		AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_SUBTARGET}-${Openwrt_Version}"
 		if [ -f "${Legacy_Firmware}" ];then
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
@@ -123,8 +123,7 @@ Diy_Part3() {
 	;;
 	*)
 		cd ${Home}
-		Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_sfx}"
-		AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_SUBTARGET}-${Openwrt_Version}.${Firmware_sfx}"
+		AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_PROFILE}-${Openwrt_Version}.${Firmware_sfx}"
 		AutoBuild_Detail="${COMP1}-${COMP1}-${Openwrt_Version}.detail"
 		echo "Firmware: ${AutoBuild_Firmware}"
 		mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${AutoBuild_Firmware}
