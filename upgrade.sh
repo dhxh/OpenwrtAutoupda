@@ -15,7 +15,7 @@ GET_TARGET_INFO() {
 	fi
 	[[ -z "${TARGET_PROFILE}" ]] && TARGET_PROFILE="Unknown"
 
-    if [[ "${TARGET_BOARD}-${TARGET_PROFILE}" == "x86-64" ]]; then
+    if [[ "${TARGET_BOARD}-64" == "x86-64" ]]; then
 		grep "CONFIG_TARGET_IMAGES_GZIP=y" ${Home}/.config > /dev/null 2>&1
 		if [[ ! $? -ne 0 ]];then
 			Firmware_sfx="img.gz"
