@@ -23,10 +23,6 @@ GET_TARGET_INFO() {
 		else
 			Firmware_sfx="img"
 		fi
-        elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
-	         Firmware_sfx="trx"
-        elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
-	         Firmware_sfx="bin"
 	fi
 	case "${REPO_URL}" in
 	"${LEDE}")
@@ -37,8 +33,10 @@ GET_TARGET_INFO() {
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
+			Firmware_sfx="trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
+			Firmware_sfx="bin"
 		fi
 	;;
 	"${LIENOL}") 
@@ -49,8 +47,10 @@ GET_TARGET_INFO() {
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
+			Firmware_sfx="trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
+			Firmware_sfx="bin"
 		fi
 	;;
 	"${PROJECT}")
@@ -61,8 +61,10 @@ GET_TARGET_INFO() {
 			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
+			Firmware_sfx="trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
+			Firmware_sfx="bin"
 		fi	
 	;;		
 	esac
