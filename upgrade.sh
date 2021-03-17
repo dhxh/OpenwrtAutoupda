@@ -57,7 +57,7 @@ GET_TARGET_INFO() {
 		COMP1="immortalwrt"
                 COMP2="${REPO_Version}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
-			Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
+			Legacy_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
 			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
@@ -122,7 +122,7 @@ Diy_Part3() {
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
 			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
-			cp ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
+			mv ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
 			echo "UEFI Firmware is detected !"
 		fi
 	;;
