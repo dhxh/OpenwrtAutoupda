@@ -117,7 +117,7 @@ Diy_Part3() {
 			_MD5=$(md5sum ${EFI_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
+			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
 			cp ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
 			echo "UEFI Firmware is detected !"
 		fi
