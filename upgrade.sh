@@ -59,7 +59,7 @@ GET_TARGET_INFO() {
                 COMP2="${REPO_BRANCH}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
-			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
+			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
