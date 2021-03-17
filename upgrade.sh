@@ -93,6 +93,8 @@ Diy_Part2() {
 	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${COMP1}" >> ${AutoBuild_Info}
 	echo "${COMP2}" >> ${AutoBuild_Info}
+	echo "${Compile_Date_Day}" >> ${AutoBuild_Info}
+	echo "${Compile_Date_Minute}" >> ${AutoBuild_Info}
 	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
 }
 
