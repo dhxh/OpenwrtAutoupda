@@ -16,18 +16,17 @@ GET_TARGET_INFO() {
 		Devicename="{TARGET_PROFILE}"
 	fi
 	[[ -z "${TARGET_PROFILE}" ]] && TARGET_PROFILE="Unknown"
-
-    if [[ "${TARGET_BOARD}-64" == "x86-64" ]]; then
+        if [[ "${TARGET_BOARD}-64" == "x86-64" ]]; then
 		grep "CONFIG_TARGET_IMAGES_GZIP=y" ${Home}/.config > /dev/null 2>&1
 		if [[ ! $? -ne 0 ]];then
 			Firmware_sfx="img.gz"
 		else
 			Firmware_sfx="img"
 		fi
-    elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
-	    Firmware_sfx="trx"
-    elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
-	    Firmware_sfx="bin"
+        elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
+	         Firmware_sfx="trx"
+        elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
+	         Firmware_sfx="bin"
 	fi
 	case "${REPO_URL}" in
 	"${LEDE}")
