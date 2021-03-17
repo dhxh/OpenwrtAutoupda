@@ -13,7 +13,7 @@ GET_TARGET_INFO() {
 		Devicename="x86-64"
 	else
 		TARGET_PROFILE="$(egrep -o "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
-		Devicename="{TARGET_PROFILE}"
+		Devicename="${TARGET_PROFILE}"
 	fi
 	[[ -z "${TARGET_PROFILE}" ]] && TARGET_PROFILE="Unknown"
         if [[ "${TARGET_BOARD}-64" == "x86-64" ]]; then
