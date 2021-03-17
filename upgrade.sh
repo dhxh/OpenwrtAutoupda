@@ -126,7 +126,7 @@ Diy_Part3() {
 	*)
 		cd ${Home}
 		AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_PROFILE}-${Openwrt_Version}.${Firmware_sfx}"
-		AutoBuild_Detail="${COMP1}-${COMP1}-${Openwrt_Version}.detail"
+		AutoBuild_Detail="${COMP1}-${COMP2}-${TARGET_PROFILE}-${Openwrt_Version}.detail"
 		echo "Firmware: ${AutoBuild_Firmware}"
 		mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${AutoBuild_Firmware}
 		_MD5=$(md5sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
