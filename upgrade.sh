@@ -91,8 +91,6 @@ Diy_Part2() {
 	echo "${Openwrt_Version}" > ${AutoBuild_Info}
 	echo "${Github_Repo}" >> ${AutoBuild_Info}
 	echo "${TARGET_PROFILE}" >> ${AutoBuild_Info}
-	echo "Firmware Type: ${Firmware_sfx}"
-	echo "Writting Type: ${Firmware_sfx} to ${AutoBuild_Info} ..."
 	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
 	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${COMP1}" >> ${AutoBuild_Info}
