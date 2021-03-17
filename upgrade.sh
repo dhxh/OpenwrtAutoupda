@@ -23,6 +23,10 @@ GET_TARGET_INFO() {
 		else
 			Firmware_sfx="img"
 		fi
+	elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
+	        Firmware_sfx="trx"
+	elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
+	        Firmware_sfx="bin"
 	fi
 	case "${REPO_URL}" in
 	"${LEDE}")
@@ -32,11 +36,9 @@ GET_TARGET_INFO() {
 			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
-			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
-			Firmware_sfx="trx"
+			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"		
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
-			Firmware_sfx="bin"
 		fi
 	;;
 	"${LIENOL}") 
@@ -47,10 +49,8 @@ GET_TARGET_INFO() {
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
-			Firmware_sfx="trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
-			Firmware_sfx="bin"
 		fi
 	;;
 	"${PROJECT}")
@@ -61,10 +61,8 @@ GET_TARGET_INFO() {
 			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
-			Firmware_sfx="trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
-			Firmware_sfx="bin"
 		fi	
 	;;		
 	esac
@@ -93,12 +91,15 @@ Diy_Part2() {
 	echo "Github: ${Github_Repo}"
 	echo "${Openwrt_Version}" > ${AutoBuild_Info}
 	echo "${Github_Repo}" >> ${AutoBuild_Info}
+	echo "${TARGET_PROFILE}" >> ${AutoBuild_Info}
+	echo "Firmware Type: ${Firmware_sfx}"
+	echo "Writting Type: ${Firmware_sfx} to ${AutoBuild_Info} ..."
+	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
 	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${COMP1}" >> ${AutoBuild_Info}
 	echo "${COMP2}" >> ${AutoBuild_Info}
 	echo "${Compile_Date_Day}" >> ${AutoBuild_Info}
 	echo "${Compile_Date_Minute}" >> ${AutoBuild_Info}
-	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
 }
 
 Diy_Part3() {
