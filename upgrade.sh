@@ -108,7 +108,7 @@ Diy_Part3() {
 		Legacy_Firmware="${Legacy_Firmware}"
 		EFI_Firmware="${EFI_Default_Firmware}"
 		if [ -f "${Legacy_Firmware}" ];then
-		        AutoBuild_Firmware="${COMP1}-${COMP2}-Legacy-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}"
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-Legacy-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}-Legacy"
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
@@ -117,10 +117,10 @@ Diy_Part3() {
 			echo "Legacy Firmware is detected !"
 		fi
 		if [ -f "${EFI_Firmware}" ];then
-		        AutoBuild_Firmware="${COMP1}-${COMP2}-UEFI-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}"
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}-UEFI"
 			_MD5=$(md5sum ${EFI_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
-			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
+			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
 			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
 			mv ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
 			echo "UEFI Firmware is detected !"
