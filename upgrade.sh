@@ -8,10 +8,12 @@ GET_TARGET_INFO() {
         TARGET_BOARD="$(awk -F '[="]+' '/TARGET_BOARD/{print $2}' .config)"
 	TARGET_SUBTARGET="$(awk -F '[="]+' '/TARGET_SUBTARGET/{print $2}' .config)"
 	TARGET_PROFILE="$(egrep -o "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
-	if [[ "${TARGET_BOARD}-x64" == "x86-64" ]];then
-		TARGET_PROFILE="x64"
+	if [[ "${TARGET_BOARD}-64" == "x86-64" ]];then
+		TARGET_PROFILE="64"
+		Devicename="x86-64"
 	else
 		TARGET_PROFILE="$(egrep -o "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
+		Devicename="{TARGET_PROFILE}"
 	fi
 	[[ -z "${TARGET_PROFILE}" ]] && TARGET_PROFILE="Unknown"
 
@@ -31,7 +33,7 @@ GET_TARGET_INFO() {
 	"${LEDE}")
 		COMP1="lede"
 		COMP2="lean"
-		if [[ "${TARGET_PROFILE}" == "x86" ]]; then
+		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
@@ -43,7 +45,7 @@ GET_TARGET_INFO() {
 	"${LIENOL}") 
 		COMP1="lienol"
 		COMP2="${REPO_BRANCH}"
-		if [[ "${TARGET_PROFILE}" == "x86" ]]; then
+		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
@@ -55,9 +57,9 @@ GET_TARGET_INFO() {
 	"${PROJECT}")
 		COMP1="immortalwrt"
                 COMP2="${REPO_BRANCH}"
-		if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
-			Default_Firmware="immortalwrt-x86-64-combined-squashfs.${Firmware_sfxo}"
-			EFI_Default_Firmware="immortalwrt-x86-64-uefi-gpt-squashfs.${Firmware_sfxo}"
+		if [[ "${TARGET_BOARD}" == "x86" ]]; then
+			Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
+			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
@@ -88,10 +90,10 @@ Diy_Part2() {
 	echo "Github: ${Github_Repo}"
 	echo "${Openwrt_Version}" > ${AutoBuild_Info}
 	echo "${Github_Repo}" >> ${AutoBuild_Info}
-	echo "${TARGET_PROFILE}" >> ${AutoBuild_Info}
-	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
+	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${COMP1}" >> ${AutoBuild_Info}
-	echo "${COMP2}" >> ${AutoBuild_Info}	
+	echo "${COMP2}" >> ${AutoBuild_Info}
+	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
 }
 
 Diy_Part3() {
@@ -104,7 +106,7 @@ Diy_Part3() {
 		Legacy_Firmware="${Legacy_Firmware}"
 		EFI_Firmware="${EFI_Default_Firmware}"
 		if [ -f "${Legacy_Firmware}" ];then
-		        AutoBuild_Firmware="${COMP1}-${COMP2}-Legacy-${TARGET_SUBTARGET}-${Openwrt_Version}"
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-Legacy-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}"
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
@@ -113,7 +115,7 @@ Diy_Part3() {
 			echo "Legacy Firmware is detected !"
 		fi
 		if [ -f "${EFI_Firmware}" ];then
-		        AutoBuild_Firmware="${COMP1}-${COMP2}-UEFI-${TARGET_SUBTARGET}-${Openwrt_Version}"
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-UEFI-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}"
 			_MD5=$(md5sum ${EFI_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
