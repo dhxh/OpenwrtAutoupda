@@ -43,7 +43,7 @@ GET_TARGET_INFO() {
 	;;
 	"${LIENOL}") 
 		COMP1="lienol"
-		COMP2="${REPO_BRANCH}"
+		COMP2="${REPO_Version}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
@@ -55,7 +55,7 @@ GET_TARGET_INFO() {
 	;;
 	"${PROJECT}")
 		COMP1="immortalwrt"
-                COMP2="${REPO_BRANCH}"
+                COMP2="${REPO_Version}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
 			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
@@ -69,7 +69,8 @@ GET_TARGET_INFO() {
 	AutoBuild_Info=${GITHUB_WORKSPACE}/openwrt/package/base-files/files/etc/openwrt_info
 	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" ${GITHUB_WORKSPACE}/.git/config | cut -c8-100)"
 	AutoUpdate_Version="$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')"
-	Openwrt_Version=${Compile_Date_Day}-${Compile_Date_Minute}
+	Openwrt_Version="${Compile_Date_Day}-${Compile_Date_Minute}"
+	REPO_Version="${REPO_BRANCH#*-}"
 }
 
 Diy_Part1() {
