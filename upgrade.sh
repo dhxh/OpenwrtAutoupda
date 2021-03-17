@@ -16,24 +16,26 @@ GET_TARGET_INFO() {
 	fi
 	[[ -z "${TARGET_PROFILE}" ]] && TARGET_PROFILE="Unknown"
         if [[ "${TARGET_BOARD}-64" == "x86-64" ]]; then
-		grep "CONFIG_TARGET_IMAGES_GZIP=y" ${Home}/.config > /dev/null 2>&1
+		grep "CONFIG_TARGET_IMAGES_GZIP=y" .config > /dev/null 2>&1
 		if [[ ! $? -ne 0 ]];then
-			Firmware_sfx="img.gz"
+		Firmware_sfx="img.gz"
 		else
-			Firmware_sfx="img"
+		Firmware_sfx="img"
 		fi
-	elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
+	else
+	        if [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 	        Firmware_sfx="trx"
-	elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
+	        elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
 	        Firmware_sfx="bin"
+	    fi
 	fi
 	case "${REPO_URL}" in
 	"${LEDE}")
 		COMP1="lede"
 		COMP2="lean"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
-			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
-			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
+			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
+			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"		
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
@@ -44,8 +46,8 @@ GET_TARGET_INFO() {
 		COMP1="lienol"
 		COMP2="${REPO_Version}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
-			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
-			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
+			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
+			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
@@ -56,8 +58,8 @@ GET_TARGET_INFO() {
 		COMP1="immortalwrt"
                 COMP2="${REPO_Version}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
-			Legacy_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
-			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
+			Legacy_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
+			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
 			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
