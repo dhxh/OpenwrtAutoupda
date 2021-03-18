@@ -44,7 +44,7 @@ GET_TARGET_INFO() {
 	;;
 	"${LIENOL}") 
 		COMP1="lienol"
-		COMP2="${REPO_Version}"
+		COMP2="${REPO_BRANCH}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
@@ -56,6 +56,7 @@ GET_TARGET_INFO() {
 	;;
 	"${PROJECT}")
 		COMP1="immortalwrt"
+		REPO_Version="${REPO_BRANCH##*-}"
                 COMP2="${REPO_Version}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Legacy_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
@@ -71,7 +72,6 @@ GET_TARGET_INFO() {
 	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" ${GITHUB_WORKSPACE}/.git/config | cut -c8-100)"
 	AutoUpdate_Version="$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')"
 	Openwrt_Version="${Compile_Date_Day}-${Compile_Date_Minute}"
-	REPO_Version="${REPO_BRANCH#*-}"
 }
 
 Diy_Part1() {
@@ -87,12 +87,12 @@ Diy_Part2() {
 	[[ -z "${Author}" ]] && Author="Unknown"
 	echo "Author: ${Author}"
 	echo "Openwrt Version: ${Openwrt_Version}"
-	echo "Router: ${TARGET_PROFILE}"
+	echo "Router: ${Devicename}"
 	echo "Firmware_Extension: ${Firmware_sfx}"
 	echo "Github: ${Github_Repo}"
 	echo "${Openwrt_Version}" > ${AutoBuild_Info}
 	echo "${Github_Repo}" >> ${AutoBuild_Info}
-	echo "${TARGET_PROFILE}" >> ${AutoBuild_Info}
+	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
 	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${COMP1}" >> ${AutoBuild_Info}
