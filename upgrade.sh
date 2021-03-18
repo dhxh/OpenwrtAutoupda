@@ -56,8 +56,7 @@ GET_TARGET_INFO() {
 	;;
 	"${PROJECT}")
 		COMP1="immortalwrt"
-		REPO_Version="${REPO_BRANCH##*-}"
-                COMP2="${REPO_Version}"
+                COMP2="${REPO_BRANCH##*-}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
 			Legacy_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
 			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
@@ -87,7 +86,10 @@ Diy_Part2() {
 	[[ -z "${Author}" ]] && Author="Unknown"
 	echo "Author: ${Author}"
 	echo "Openwrt Version: ${Openwrt_Version}"
-	echo "Router: ${Devicename}"
+	echo "Router1: ${TARGET_BOARD}"
+	echo "Router2: ${Devicename}"
+	echo "name1: ${COMP1}"
+	echo "name2: ${COMP2}"
 	echo "Firmware_Extension: ${Firmware_sfx}"
 	echo "Github: ${Github_Repo}"
 	echo "${Openwrt_Version}" > ${AutoBuild_Info}
