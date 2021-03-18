@@ -96,7 +96,6 @@ Diy_Part2() {
 	echo "${Github_Repo}" >> ${AutoBuild_Info}
 	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${Firmware_sfx}" >> ${AutoBuild_Info}
-	echo "${Devicename}" >> ${AutoBuild_Info}
 	echo "${COMP1}" >> ${AutoBuild_Info}
 	echo "${COMP2}" >> ${AutoBuild_Info}
 	echo "${Compile_Date_Day}" >> ${AutoBuild_Info}
