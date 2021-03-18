@@ -113,7 +113,7 @@ Diy_Part3() {
 		Legacy_Firmware="${Legacy_Firmware}"
 		EFI_Firmware="${EFI_Default_Firmware}"
 		if [ -f "${Legacy_Firmware}" ];then
-		        AutoBuild_Firmware="${COMP1}-${COMP2}-Legacy-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}-Legacy"
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}-Legacy"
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
