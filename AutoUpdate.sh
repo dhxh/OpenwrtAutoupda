@@ -3,7 +3,7 @@
 # AutoBuild Module by Hyy2001
 # AutoUpdate for Openwrt
 
-Version=V5.2
+Version=V5.3
 
 TIME() {
 	echo -ne "\n[$(date "+%H:%M:%S")] "
@@ -113,9 +113,13 @@ x86-64)
 	Space_RQM=50
 esac
 CURRENT_Ver="${CURRENT_Version}${BOOT_Type}"
-Github_Download="${Github}/releases/download/update_Firmware"
 Author="${Github##*com/}"
-Github_Tags="https://api.github.com/repos/${Author}/releases/tags/update_Firmware"
+Github_Tags="https://api.github.com/repos/${Author}/releases/latest"
+[ ! -f /tmp/Github_Tags ] && touch /tmp/Github_Tags
+wget -q ${Github_Tags} -O - > /tmp/Github_Tags
+Build_Date=$(cat /tmp/Github_Tags | egrep -o "${Github}/releases/tag/[0-9]+.[0-9]+" | awk 'END {print}')
+Updaet_Date="${Build_Date#*tag/}"
+Github_Download="${Github}/releases/download/${Updaet_Date}"
 cd /etc
 clear && echo "Openwrt-AutoUpdate Script ${Version}"
 if [[ -z "${Input_Option}" ]];then
@@ -197,7 +201,8 @@ if [[ ! "$?" == 0 ]];then
 fi
 TIME && echo "正在获取云端固件版本..."
 GET_Firmware="$(cat /tmp/Github_Tags | egrep -o "${Firmware_COMP1}-${Firmware_COMP2}-${DEFAULT_Device}-[a-zA-Z0-9_-]+.*?[0-9]+${Firmware_SFX}" | awk 'END {print}')"
-GET_Version="$(echo ${GET_Firmware} | egrep -o "${Firmware_COMP2}-${DEFAULT_Device}-[a-zA-Z0-9_-]+.*?[0-9]+${BOOT_Type}")"
+GET_Versi="$(echo ${GET_Firmware} | egrep -o "${Firmware_COMP2}-${DEFAULT_Device}-[a-zA-Z0-9_-]+.*?[0-9]+${BOOT_Type}")"
+GET_Version="${GET_Versi##*${DEFAULT_Device}-}"
 if [[ -z "${GET_Firmware}" ]] || [[ -z "${GET_Version}" ]];then
 	TIME && echo "云端固件版本获取失败!"
 	exit
@@ -205,15 +210,31 @@ fi
 Firmware_Info="$(echo ${GET_Firmware} | egrep -o "${Firmware_COMP1}-${Firmware_COMP2}-${DEFAULT_Device}-[a-zA-Z0-9_-]+.*?[0-9]+")"
 Firmware="${GET_Firmware}"
 Firmware_Detail="${Firmware_Info}${Detail_SFX}"
+upda_day1="${upda_day%-*}"
+upda_day2="${upda_day#*-}"
+GET_Ver="${upda_day1}${upda_day2}"
+CURRENT_day1="$(awk 'NR==7' /etc/openwrt_info)"
+CURRENT_day2="$(awk 'NR==8' /etc/openwrt_info)"
+CURRENT_Version="${CURRENT_day1}${CURRENT_day2}"
 echo -e "\n固件作者: ${Author%/*}"
 echo "设备名称: ${CURRENT_Device}"
 echo "固件格式: ${Firmware_GESHI}"
 echo -e "\n当前固件版本: ${CURRENT_Ver}"
 echo "云端固件版本: ${GET_Version}"
 if [[ ! ${Force_Update} == 1 ]];then
-	if [[ ${CURRENT_Version} == ${GET_Version} ]];then
-		[[ "${AutoUpdate_Mode}" == "1" ]] && exit
-		TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
+    if [[ ${CURRENT_Vers} -gt ${GET_Ver} ]];then
+	   [[ "${AutoUpdate_Mode}" == "1" ]] && exit
+        TIME && read -p "当前版本大于Github版本,是否强制更新固件?[Y/n]:" Choose
+		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
+			TIME && echo "开始强制更新固件..."
+		else
+			TIME && echo "已取消强制更新,即将退出更新程序..."
+			sleep 2
+			exit
+		fi
+    elif [[ ${CURRENT_Vers} -eq ${GET_Ver} ]];then
+	     [[ "${AutoUpdate_Mode}" == "1" ]] && exit
+        TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
 		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
 			TIME && echo "开始强制更新固件..."
 		else
@@ -247,11 +268,11 @@ CURRENT_MD5=$(md5sum ${Firmware} | cut -d ' ' -f1)
 echo -e "\n本地固件MD5:${CURRENT_MD5}"
 echo "云端固件MD5:${GET_MD5}"
 if [[ -z "${GET_MD5}" ]] || [[ -z "${CURRENT_MD5}" ]];then
-	TIME && echo -e "MD5 获取失败!"
+	TIME && echo "MD5 获取失败!"
 	exit
 fi
 if [[ ! "${GET_MD5}" == "${CURRENT_MD5}" ]];then
-	TIME && echo -e "MD5 对比失败,请检查网络后重试!"
+	TIME && echo "MD5 对比失败,请检查网络后重试!"
 	exit
 else
 	TIME && echo -e "MD5 对比成功!"
@@ -268,9 +289,9 @@ if [[ ${Compressed_x86} == 1 ]];then
 		exit
 	fi
 fi
-TIME && echo -e "一切准备就绪,5s 后开始更新固件...\n"
+TIME && echo -e "一切准备就绪,5s 后开始更新固件..."
 sleep 5
-TIME && echo -e "正在更新固件,期间请耐心等待..."
+TIME && echo "正在更新固件,期间请耐心等待..."
 sysupgrade ${Upgrade_Options} ${Firmware}
 if [[ $? -ne 0 ]];then
 	TIME && echo "固件刷写失败,请尝试不保留配置[-n]或手动下载固件!"
