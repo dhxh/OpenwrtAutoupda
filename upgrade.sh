@@ -105,11 +105,11 @@ Diy_Part2() {
 
 Diy_Part3() {
 	GET_TARGET_INFO
-	Firmware_Path="bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}"
 	mkdir bin/Firmware
 	case "${TARGET_PROFILE}" in
 	x86_64)
 		cd ${Firmware_Path}
+		Firmware_Path="bin/targets/${TARGET_BOARD}/${TARGET_PROFILE}"
 		Legacy_Firmware="${Legacy_Firmware}"
 		EFI_Firmware="${EFI_Default_Firmware}"
 		if [ -f "${Legacy_Firmware}" ];then
@@ -118,7 +118,7 @@ Diy_Part3() {
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
 			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
-			mv -f ${Firmware_Path}/${Legacy_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
+			cp -f ${Firmware_Path}/${Legacy_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
 			echo "Legacy Firmware is detected !"
 		fi
 		if [ -f "${EFI_Firmware}" ];then
@@ -127,16 +127,17 @@ Diy_Part3() {
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
 			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
-			mv ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
+			cp -f ${Firmware_Path}/${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}.${Firmware_sfx}
 			echo "UEFI Firmware is detected !"
 		fi
 	;;
 	*)
 		cd ${Home}
+		Firmware_Path="bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}"
 		AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_PROFILE}-${Openwrt_Version}.${Firmware_sfx}"
 		AutoBuild_Detail="${COMP1}-${COMP2}-${TARGET_PROFILE}-${Openwrt_Version}.detail"
 		echo "Firmware: ${AutoBuild_Firmware}"
-		mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${AutoBuild_Firmware}
+		cp -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${AutoBuild_Firmware}
 		_MD5=$(md5sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
 		_SHA256=$(sha256sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
 		echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${AutoBuild_Detail}
