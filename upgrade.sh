@@ -37,9 +37,9 @@ GET_TARGET_INFO() {
 			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
-			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"		
+			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.${Firmware_sfx}"		
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
-			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
+			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_sfx}"
 		fi
 	;;
 	"${LIENOL}") 
@@ -49,9 +49,9 @@ GET_TARGET_INFO() {
 			Legacy_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
 			EFI_Default_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
-			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
+			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
-			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
+			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_sfx}"
 		fi
 	;;
 	"${PROJECT}")
@@ -62,9 +62,9 @@ GET_TARGET_INFO() {
 			Legacy_Firmware="immortalwrt-x86-64-generic-squashfs-combined.${Firmware_sfx}"
 			EFI_Default_Firmware="immortalwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}" == "bcm53xx" ]]; then
-			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.trx"
+			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs.${Firmware_sfx}"
 		elif [[ "${TARGET_BOARD}-${TARGET_SUBTARGET}" = "ramips-mt7621" ]]; then
-			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
+			Default_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_sfx}"
 		fi	
 	;;		
 	esac
