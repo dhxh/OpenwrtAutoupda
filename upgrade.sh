@@ -5,11 +5,11 @@
 
 GET_TARGET_INFO() {
 	[ -f ${GITHUB_WORKSPACE}/Openwrt.info ] && . ${GITHUB_WORKSPACE}/Openwrt.info
-        TARGET_BOARD="$(awk -F '[="]+' '/TARGET_BOARD/{print $2}' .config)"
+    TARGET_BOARD="$(awk -F '[="]+' '/TARGET_BOARD/{print $2}' .config)"
 	TARGET_SUBTARGET="$(awk -F '[="]+' '/TARGET_SUBTARGET/{print $2}' .config)"
 	if [[ "${TARGET_BOARD}-64" == "x86-64" ]];then
 		TARGET_PROFILE="64"
-		Devicename="x86-64"
+		Devicename="${TARGET_BOARD}-${TARGET_PROFILE}"
 	else
 		TARGET_PROFILE="$(egrep -o "CONFIG_TARGET.*DEVICE.*=y" .config | sed -r 's/.*DEVICE_(.*)=y/\1/')"
 		Devicename="${TARGET_PROFILE}"
@@ -105,14 +105,14 @@ Diy_Part2() {
 Diy_Part3() {
 	GET_TARGET_INFO
 	mkdir bin/Firmware
-	case "${TARGET_PROFILE}" in
-	x86_64)
+	case "${TARGET_BOARD}" in
+	x86)
 		cd ${Firmware_Path}
 		Firmware_Path="bin/targets/${TARGET_BOARD}/${TARGET_PROFILE}"
 		Legacy_Firmware="${Legacy_Firmware}"
 		EFI_Firmware="${EFI_Default_Firmware}"
 		if [ -f "${Legacy_Firmware}" ];then
-		        AutoBuild_Firmware="${COMP1}-${COMP2}-${Devicename}-${Openwrt_Version}-Legacy"
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}-Legacy"
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
@@ -121,7 +121,7 @@ Diy_Part3() {
 			echo "Legacy Firmware is detected !"
 		fi
 		if [ -f "${EFI_Firmware}" ];then
-		        AutoBuild_Firmware="${COMP1}-${COMP2}-${Devicename}-${Openwrt_Version}-UEFI"
+		        AutoBuild_Firmware="${COMP1}-${COMP2}-${TARGET_BOARD}-${TARGET_PROFILE}-${Openwrt_Version}-UEFI"
 			_MD5=$(md5sum ${EFI_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
