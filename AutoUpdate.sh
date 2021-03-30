@@ -216,15 +216,14 @@ GET_Ver="${upda_day1}${upda_day2}"
 CURRENT_day1="$(awk 'NR==7' /etc/openwrt_info)"
 CURRENT_day2="$(awk 'NR==8' /etc/openwrt_info)"
 CURRENT_Vers="${CURRENT_day1}${CURRENT_day2}"
+Vers="${CURRENT_Vers} - ${GET_Ver}"
 echo -e "\n固件作者: ${Author%/*}"
 echo "设备名称: ${CURRENT_Device}"
 echo "固件格式: ${Firmware_GESHI}"
 echo -e "\n当前固件版本: ${CURRENT_Ver}"
 echo "云端固件版本: ${GET_Version}"
 if [[ ! ${Force_Update} == 1 ]];then
-    if [[ ${CURRENT_Vers} -lt ${GET_Ver} ]];then
-       TIME && echo "开始更新固件..."
-    elif [[ ${CURRENT_Vers} -gt ${GET_Ver} ]];then
+    if [[ ${Vers} -gt 0 ]];then
           [[ "${AutoUpdate_Mode}" == "1" ]] && exit
           TIME && read -p "当前版本大于Github版本,是否强制更新固件?[Y/n]:" Choose
 		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
@@ -234,7 +233,7 @@ if [[ ! ${Force_Update} == 1 ]];then
 			sleep 2
 			exit
 		fi
-    elif [[ ${CURRENT_Vers} -eq ${GET_Ver} ]];then
+    elif [[ ${Vers} -eq 0 ]];then
 	   [[ "${AutoUpdate_Mode}" == "1" ]] && exit
            TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
 		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
@@ -244,7 +243,9 @@ if [[ ! ${Force_Update} == 1 ]];then
 			sleep 2
 			exit
 		fi
-	fi
+    elif [[ ${Vers} -lt 0 ]];then
+         TIME && echo "开始更新固件..."
+    fi
 fi
 echo -e "\n云端固件名称: ${Firmware}"
 echo "固件下载地址: ${Github_Download}"
