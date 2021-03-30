@@ -3,7 +3,7 @@
 # AutoBuild Module by Hyy2001
 # AutoUpdate for Openwrt
 
-Version=V5.3
+Version=V5.4
 
 TIME() {
 	echo -ne "\n[$(date "+%H:%M:%S")] "
@@ -66,7 +66,7 @@ Shell_Helper() {
 	echo "	-c	[参数2:<地址>] 更换 Github 检查更新以及固件下载地址"
 	echo "	-l	列出所有信息"
 	echo "	-d	清除固件下载缓存"
-	echo -e "	-h	打印此帮助信息\n"
+	echo -e "	-h	打印帮助信息\n"
 	exit
 }
 
@@ -173,7 +173,7 @@ else
 	fi
 fi
 if [[ "${TMP_Available}" -lt "${Space_RQM}" ]];then
-	TIME && echo "/tmp 空间不足: [${Space_RQM}M],无法执行程序!"
+	TIME && echo "/tmp 空间不足: [${Space_RQM}M],无法执行更新!"
 	exit
 fi
 if [[ ! "${Force_Update}" == "1" ]] && [[ ! "${AutoUpdate_Mode}" == "1" ]];then
@@ -222,33 +222,13 @@ echo "固件格式: ${Firmware_GESHI}"
 echo -e "\n当前固件版本: ${CURRENT_Ver}"
 echo "云端固件版本: ${GET_Version}"
 if [[ ! ${Force_Update} == 1 ]];then
-    if [[ ${CURRENT_Vers} -gt ${GET_Ver} ]];then
-          [[ "${AutoUpdate_Mode}" == "1" ]] && exit
-          TIME && read -p "当前版本大于Github版本,是否强制更新固件?[Y/n]:" Choose
+	if [[ ${CURRENT_Vers} -ge ${GET_Ver} ]];then
+		[[ "${AutoUpdate_Mode}" == "1" ]] && exit
+		TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
 		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
 			TIME && echo "开始强制更新固件..."
 		else
 			TIME && echo "已取消强制更新,即将退出更新程序..."
-			sleep 2
-			exit
-		fi
-    elif [[ ${CURRENT_Vers} -eq ${GET_Ver} ]];then
-	   [[ "${AutoUpdate_Mode}" == "1" ]] && exit
-           TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
-		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
-			TIME && echo "开始强制更新固件..."
-		else
-			TIME && echo "已取消强制更新,即将退出更新程序..."
-			sleep 2
-			exit
-		fi
-    else
-         [[ "${AutoUpdate_Mode}" == "1" ]] && exit
-         TIME && read -p "有新版本,是否更新固件?[Y/n]:" Choose
-		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
-			TIME && echo "开始更新固件..."
-		else
-			TIME && echo "已取消更新,即将退出更新程序..."
 			sleep 2
 			exit
 		fi
