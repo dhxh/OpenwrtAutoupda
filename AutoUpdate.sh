@@ -210,32 +210,21 @@ fi
 Firmware_Info="$(echo ${GET_Firmware} | egrep -o "${Firmware_COMP1}-${Firmware_COMP2}-${DEFAULT_Device}-[a-zA-Z0-9_-]+.*?[0-9]+")"
 Firmware="${GET_Firmware}"
 Firmware_Detail="${Firmware_Info}${Detail_SFX}"
-upda_day1="${upda_day%-*}"
-upda_day2="${upda_day#*-}"
+upda_day1="${GET_Version%-*}"
+upda_day2="${GET_Version#*-}"
 GET_Ver="${upda_day1}${upda_day2}"
 CURRENT_day1="$(awk 'NR==7' /etc/openwrt_info)"
 CURRENT_day2="$(awk 'NR==8' /etc/openwrt_info)"
 CURRENT_Vers="${CURRENT_day1}${CURRENT_day2}"
-Vers="${CURRENT_Vers} - ${GET_Ver}"
 echo -e "\n固件作者: ${Author%/*}"
 echo "设备名称: ${CURRENT_Device}"
 echo "固件格式: ${Firmware_GESHI}"
 echo -e "\n当前固件版本: ${CURRENT_Ver}"
 echo "云端固件版本: ${GET_Version}"
 if [[ ! ${Force_Update} == 1 ]];then
-    if [[ ${Vers} -gt 0 ]];then
-          [[ "${AutoUpdate_Mode}" == "1" ]] && exit
-          TIME && read -p "当前版本大于Github版本,是否强制更新固件?[Y/n]:" Choose
-		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
-			TIME && echo "开始强制更新固件..."
-		else
-			TIME && echo "已取消强制更新,即将退出更新程序..."
-			sleep 2
-			exit
-		fi
-    elif [[ ${Vers} -eq 0 ]];then
+    if [[ ${CURRENT_Vers} -gt ${GET_Ver} ]];then
 	   [[ "${AutoUpdate_Mode}" == "1" ]] && exit
-           TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
+        TIME && read -p "当前版本大于Github版本,是否强制更新固件?[Y/n]:" Choose
 		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
 			TIME && echo "开始强制更新固件..."
 		else
@@ -243,9 +232,17 @@ if [[ ! ${Force_Update} == 1 ]];then
 			sleep 2
 			exit
 		fi
-    elif [[ ${Vers} -lt 0 ]];then
-         TIME && echo "开始更新固件..."
-    fi
+    elif [[ ${CURRENT_Vers} -eq ${GET_Ver} ]];then
+	     [[ "${AutoUpdate_Mode}" == "1" ]] && exit
+        TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
+		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
+			TIME && echo "开始强制更新固件..."
+		else
+			TIME && echo "已取消强制更新,即将退出更新程序..."
+			sleep 2
+			exit
+		fi
+	fi
 fi
 echo -e "\n云端固件名称: ${Firmware}"
 echo "固件下载地址: ${Github_Download}"
