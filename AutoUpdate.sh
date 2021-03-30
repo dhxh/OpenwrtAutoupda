@@ -242,6 +242,9 @@ if [[ ! ${Force_Update} == 1 ]];then
 			sleep 2
 			exit
 		fi
+    else
+        [[ ${CURRENT_Vers} -lt ${GET_Ver} ]];then
+	TIME && echo "开始更新固件..."
 	fi
 fi
 echo -e "\n云端固件名称: ${Firmware}"
