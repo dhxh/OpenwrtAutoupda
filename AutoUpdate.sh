@@ -223,8 +223,8 @@ echo -e "\n当前固件版本: ${CURRENT_Ver}"
 echo "云端固件版本: ${GET_Version}"
 if [[ ! ${Force_Update} == 1 ]];then
     if [[ ${CURRENT_Vers} -gt ${GET_Ver} ]];then
-	   [[ "${AutoUpdate_Mode}" == "1" ]] && exit
-        TIME && read -p "当前版本大于Github版本,是否强制更新固件?[Y/n]:" Choose
+          [[ "${AutoUpdate_Mode}" == "1" ]] && exit
+          TIME && read -p "当前版本大于Github版本,是否强制更新固件?[Y/n]:" Choose
 		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
 			TIME && echo "开始强制更新固件..."
 		else
@@ -233,12 +233,22 @@ if [[ ! ${Force_Update} == 1 ]];then
 			exit
 		fi
     elif [[ ${CURRENT_Vers} -eq ${GET_Ver} ]];then
-	     [[ "${AutoUpdate_Mode}" == "1" ]] && exit
-        TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
+	   [[ "${AutoUpdate_Mode}" == "1" ]] && exit
+           TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
 		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
 			TIME && echo "开始强制更新固件..."
 		else
 			TIME && echo "已取消强制更新,即将退出更新程序..."
+			sleep 2
+			exit
+		fi
+    else
+         [[ "${AutoUpdate_Mode}" == "1" ]] && exit
+         TIME && read -p "有新版本,是否更新固件?[Y/n]:" Choose
+		if [[ "${Choose}" == Y ]] || [[ "${Choose}" == y ]];then
+			TIME && echo "开始更新固件..."
+		else
+			TIME && echo "已取消更新,即将退出更新程序..."
 			sleep 2
 			exit
 		fi
