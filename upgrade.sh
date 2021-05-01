@@ -54,7 +54,7 @@ GET_TARGET_INFO() {
 			Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_sfx}"
 		fi
 	;;
-	"${PROJECT}")
+	"${CTCFG}")
 		COMP1="immortalwrt"
                 COMP2="${REPO_BRANCH##*-}"
 		if [[ "${TARGET_BOARD}" == "x86" ]]; then
